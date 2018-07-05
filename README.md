@@ -1,3 +1,18 @@
+## Modify Chapter 3 to test on rinkeby 
+###prepare
+1. get eth on rinkeby test network
+https://faucet.rinkeby.io/
+###development prepare, install truffle, suppose you have installed the basic javascript enironment, npm and webpack/webpack-dev-server 
+###only need to unlock the account, don't need to do truffle migrate
+$npm install -g truffle
+$truffle console
+truffle(development)>web3.personal.unlockAccount(web3.eth.accounts[0], 'askmeforpassword')
+
+###
+$cd chapter3
+$npm install
+$webpack-dev-server
+
 # Ethereum Voting Dapp
 Simple Ethereum Voting dapp using Truffle framework
 

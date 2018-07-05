@@ -15,7 +15,8 @@ import { default as contract } from 'truffle-contract'
  * https://gist.github.com/maheshmurthy/f6e96d6b3fff4cd4fa7f892de8a1a1b4#file-index-js
  */
 
-import voting_artifacts from '../../build/contracts/Voting.json'
+//import voting_artifacts from '../../build/contracts/Voting.json'
+import voting_artifacts from './Voting.json'
 
 var Voting = contract(voting_artifacts);
 
@@ -23,6 +24,7 @@ var Voting = contract(voting_artifacts);
 var contractid='0xA3b7045Df02C0745Edd62180dA46e2b2BCD8807f';
 let candidates = {}
 const nodefortest="http://i.mailwalk.com:8545";
+//const nodefortest="http://192.168.0.174:8545";
 let tokenPrice = null;
 
 window.voteForCandidate = function(candidate) {
