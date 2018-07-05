@@ -4,22 +4,22 @@ require('babel-register')
 module.exports = {
   networks: {
     development: {
-      host: 'localhost',
+      host: '192.168.0.174',
       port: 8545,
       gas: 6700000,
       network_id: '*' // Match any network id
     },
-    ropsten: {
-      host: 'localhost',
-      port: 8545,
-      gas: 4700000,
-      network_id: '3' // Match any network id
-    },
-    kovan: {
-      host: 'localhost',
-      port: 8545,
-      gas: 4700000,
-      network_id: '5' // Match any network id
-    }
+    // ropsten: {
+    //   host: 'localhost',
+    //   port: 8545,
+    //   gas: 4700000,
+    //   network_id: '3' // Match any network id
+    // },
+    // kovan: {
+    //   host: 'localhost',
+    //   port: 8545,
+    //   gas: 4700000,
+    //   network_id: '5' // Match any network id
+    // }
   }
 }
