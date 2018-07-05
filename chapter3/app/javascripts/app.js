@@ -23,8 +23,8 @@ var Voting = contract(voting_artifacts);
 //var contractid = '0x7b2ed2d8c914c55250e8b03276415a2b1dc44d0a';
 var contractid='0xA3b7045Df02C0745Edd62180dA46e2b2BCD8807f';
 let candidates = {}
-const nodefortest="http://i.mailwalk.com:8545";
-//const nodefortest="http://192.168.0.174:8545";
+//const nodefortest="http://i.mailwalk.com:8545";
+const nodefortest="http://192.168.0.174:8545";
 let tokenPrice = null;
 
 window.voteForCandidate = function(candidate) {
