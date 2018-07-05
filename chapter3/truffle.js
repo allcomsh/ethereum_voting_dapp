@@ -4,7 +4,7 @@ require('babel-register')
 module.exports = {
   networks: {
     development: {
-      host: '192.168.0.174',
+      host: 'i.mailwalk.com',
       port: 8545,
       gas: 6700000,
       network_id: '*' // Match any network id
