@@ -1,3 +1,5 @@
+https://github.com/allcomsh/ethereum_voting_dapp
+
 1. accounts
     $ truffle console
     truffle(default)> web3.personal.newAccount('verystrongpassword')
@@ -59,3 +61,31 @@ If you want to use Rinkeby, you'll need to change in ensutils-testnet.js:
 
 contract address: 0xe7410170f87102df0055eb195163a03b7f2bff4a (line 220)
 publicResolver address: 0x5d20cf83cb385e06d2f2a892f9322cd4933eacdc (line 1314)
+
+web3.personal.unlockAccount(web3.personal.listAccounts[0],"<password>", 15000) // 15,000 seconds
+new Date(testRegistrar.expiryTimes(web3.sha3('myname')).toNumber() * 1000)
+
+> testRegistrar.register(web3.sha3('liwei'), eth.accounts[0], {from: eth.accounts[0]})
+"0x4b3eae273d8f92d9bcbd4db1d67497d5a3fc8d0ce4fec2ae7b19c20007955a60"
+> testRegistrar.expiryTimes(web3.sha3('liwei'))
+1536573428
+> ens.owner(namehash('liwei.test'))
+"0xee95143def53f4b012f25d6f1609f969edbacb89"
+> eth.accounts
+["0xee95143def53f4b012f25d6f1609f969edbacb89"]
+subdomain owner
+ens.setSubnodeOwner(namehas('allcom.test'),web3.sha3('zhujuan'),eth.accounts[2],{from:eth.accounts[0]});
+
+REGISTER
+input username: liwei password
+0. check if name available
+1. eth.newAccount
+2. testRegistrar.register(username,account address, {from:system account})
+3. give new account some token
+4. bind email address
+
+LOGIN
+input username: liwei password:
+1. get address: ens.owner(namehash('liwei.test'))
+2. unlockAccount(address,password,15000);
+login if success
