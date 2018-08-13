@@ -55,3 +55,7 @@ $ ./go-ethereum/build/bin/geth
 9. ens
 http://docs.ens.domains/en/latest/introduction.html
 ENS is also deployed on the Rinkeby testnet at 0xe7410170f87102df0055eb195163a03b7f2bff4a, where only the .test top level domain is supported.
+If you want to use Rinkeby, you'll need to change in ensutils-testnet.js:
+
+contract address: 0xe7410170f87102df0055eb195163a03b7f2bff4a (line 220)
+publicResolver address: 0x5d20cf83cb385e06d2f2a892f9322cd4933eacdc (line 1314)
