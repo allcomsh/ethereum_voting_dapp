@@ -26,3 +26,18 @@
       pulledStates: 0,
       startingBlock: 0 }
     getBalance will not return until syncing is not false
+
+6. install geth on centos
+http://blog.bradlucas.com/posts/2017-07-18-ethereum-installing-geth-on-centos/
+Building
+
+$  sudo yum install golang
+$  sudo yum install gmp-devel
+$  git clone https://github.com/ethereum/go-ethereum
+$  cd go-ethereum/
+$  make geth
+$  ls -al  build/bin/geth
+
+Running
+
+$ ./go-ethereum/build/bin/geth
