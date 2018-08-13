@@ -59,16 +59,21 @@ window.buyTokens = function() {
   let tokensToBuy = $("#buy").val();
   let price = tokensToBuy * tokenPrice;
   $("#buy-msg").html("Purchase order has been submitted. Please wait.");
-//  Voting.deployed().then(function(contractInstance) {
-  Voting.at(contractid).then(function(contractInstance) {
-    contractInstance.buy({value: web3.toWei(price, 'ether'), from: web3.eth.accounts[0]}).then(function(v) {
-      $("#buy-msg").html("");
-      web3.eth.getBalance(contractInstance.address, function(error, result) {
-        $("#contract-balance").html(web3.fromWei(result.toString()) + " Ether");
-      });
+    web3.personal.unlockAccount(web3.eth.accounts[0],'allcompass',15000,function(error,result){
+      console.log(error,result);
+        Voting.at(contractid).then(function(contractInstance) {
+            contractInstance.buy({value: web3.toWei(price, 'ether'), from: web3.eth.accounts[0]}).then(function(v) {
+                $("#buy-msg").html("");
+                web3.eth.getBalance(contractInstance.address, function(error, result) {
+                    $("#contract-balance").html(web3.fromWei(result.toString()) + " Ether");
+                });
+            })
+        });
+        populateTokenData();
     })
-  });
-  populateTokenData();
+
+//  Voting.deployed().then(function(contractInstance) {
+
 }
 
 window.lookupVoterInfo = function() {
@@ -135,7 +140,7 @@ function populateCandidateVotes() {
 }
 
 function setupCandidateRows() {
-  Object.keys(candidates).forEach(function (candidate) {
+  Object.keys(candidates).forEach(function (candidate) { 
     $("#candidate-rows").append("<tr><td>" + candidate + "</td><td id='" + candidates[candidate] + "'></td></tr>");
   });
 }
