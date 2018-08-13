@@ -15,9 +15,9 @@
     https://github.com/ethereum/go-ethereum
 
 4. fast mode
-    geth --rinkeby --syncmode "fast" --rpc --rpcapi db,eth,net,web3,personal --cache=1024  --rpcport 8545 --rpcaddr 127.0.0.1 --rpccorsdomain "*"
+    geth --rinkeby --syncmode "fast" --rpc --rpcapi db,eth,net,web3,personal --cache=1024  --rpcport 8545 --rpcaddr 0.0.0.0 --rpccorsdomain "*" --datadir /data/ethereum/.ethereum
 5. light mode
-    geth --rinkeby --syncmode "light" --rpc --rpcapi db,eth,net,web3,personal --cache=1024  --rpcport 8545 --rpcaddr 127.0.0.1 --rpccorsdomain "*"
+    geth --rinkeby --syncmode "light" --rpc --rpcapi db,eth,net,web3,personal --cache=1024  --rpcport 8545 --rpcaddr 0.0.0.0 --rpccorsdomain "*" --datadir /data/ethereum/.ethereum
     light mode save space but still take long time to sync for first time
     truffle(development)> web3.eth.syncing
     { currentBlock: 456768,
@@ -41,3 +41,17 @@ $  ls -al  build/bin/geth
 Running
 
 $ ./go-ethereum/build/bin/geth
+7. firewall
+    firewall-cmd --get-active-zones
+    firewall-cmd --zone=public --add-port=8545/tcp --permanent
+    firewall-cmd --reload
+
+8. node and npm
+    sudo yum install epel-release
+    sudo yum install nodejs
+    sudo npm install -g truffle
+    npm install
+
+9. ens
+http://docs.ens.domains/en/latest/introduction.html
+ENS is also deployed on the Rinkeby testnet at 0xe7410170f87102df0055eb195163a03b7f2bff4a, where only the .test top level domain is supported.
