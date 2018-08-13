@@ -38,7 +38,7 @@ contract Voting {
   /* When the contract is deployed on the blockchain, we will initialize
    the total number of tokens for sale, cost per token and all the candidates
    */
-  function Voting(uint tokens, uint pricePerToken, bytes32[] candidateNames) public {
+  constructor (uint tokens, uint pricePerToken, bytes32[] candidateNames) public {
     candidateList = candidateNames;
     totalTokens = tokens;
     balanceTokens = tokens;
@@ -123,7 +123,9 @@ contract Voting {
    */
 
   function transferTo(address account) public {
-    account.transfer(this.balance);
+  /*  account.transfer(this.balance);
+  */
+    account.transfer(address(this).balance);
   }
 
   function allCandidates() view public returns (bytes32[]) {
