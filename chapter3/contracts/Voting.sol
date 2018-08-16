@@ -123,9 +123,32 @@ contract Voting {
    */
 
   function transferTo(address account) public {
-  /*  account.transfer(this.balance);
-  */
+  /*
+    account.transfer(this.balance);
+     require(msg.sender.send(address(this).balance));
+     msg.sender.send(address(this).balance);
+     msg.sender.transfer(address(this).balance);
     account.transfer(address(this).balance);
+     msg.sender.transfer(address(this).balance);
+         require(msg.sender.send(address(this).balance));
+    account.transfer.gas(GAS_LIMIT)(amount);
+    uint GAS_LIMIT = 4000000;
+    uint amount = address(this).balance - GAS_LIMIT;
+    account.transfer(amount);
+     msg.sender.send(address(this).balance);
+       account.transfer(address(this).balance);
+    */
+    uint GAS_LIMIT = 4000000;
+    uint amount = (totalTokens - balanceTokens -1)*tokenPrice;
+    account.transfer(amount);
+  }
+function balance1() view public returns (uint) {
+    uint amount = address(this).balance;
+    return amount;
+  }
+  function balance2() view public returns (uint) {
+    uint amount = (totalTokens - balanceTokens-1)*tokenPrice;
+    return amount;
   }
 
   function allCandidates() view public returns (bytes32[]) {

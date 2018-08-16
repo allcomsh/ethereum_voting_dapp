@@ -89,3 +89,20 @@ input username: liwei password:
 1. get address: ens.owner(namehash('liwei.test'))
 2. unlockAccount(address,password,15000);
 login if success
+
+development tools
+git
+sudo yum install git
+sudo yum groupinstall "Development Tools"
+sudo yum install gettext-devel openssl-devel perl-CPAN perl-devel zlib-devel
+
+os
+yum -y install epel-release
+if yum fails update the repo according to the following:
+https://mirrors.163.com/.help/centos.html
+1. 首先备份/etc/yum.repos.d/CentOS-Base.repo
+mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
+2. wget https://mirrors.163.com/.help/CentOS7-Base-163.repo
+3. yum clean all
+   yum makecache
+   yum install golang

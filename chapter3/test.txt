@@ -1,0 +1,40 @@
+liweideMac-mini:chapter3 liwei$ truffle migrate
+Using network 'development'.
+
+Running migration: 1_initial_migration.js
+  Deploying Migrations...
+  ... 0x84bc4c2a6447ef7feebbf5babb7c93c7c8931ea76756ea4da84ae0642e6f14f7
+  Migrations: 0x473a04205db4bc500a7a2ace0668871a42b579c4
+Saving successful migration to network...
+  ... 0xcb1d74d031fa095a791e265df73dfe0b6d5945f8088688024c7f58e67ff6838e
+Saving artifacts...
+Running migration: 2_deploy_contracts.js
+  Deploying Voting...
+  ... 0x5aaa8548f9ed9e82b969e62641d03dc4f57c3debea15ed4d61d89eec54ba66c2
+  Voting: 0xe032915da7639f412887b76c34b97c53ad087cb3
+Saving successful migration to network...
+  ... 0xbd0e59468929525eae4479b6b93bc6248f34146aa9c6ecdce8448ce6e6b08d29
+
+
+  liweideMac-mini:chapter3 liwei$ truffle migrate
+  Using network 'development'.
+
+  Network up to date.
+  liweideMac-mini:chapter3 liwei$ truffle deploy --reset
+  Using network 'development'.
+
+  Running migration: 1_initial_migration.js
+    Replacing Migrations...
+    ... 0x5b9f7e61ffe44a322a3aa2361c362c423a83f18bc98c2e6afe98417ed4a94439
+    Migrations: 0xb29120aa20a76e19d9492d4c6b6e89c7a711bf90
+  Saving successful migration to network...
+    ... 0xaed675d910615c961fdc025d2fad9485d60fcdd476ea5610afacd128ae2f2533
+  Saving artifacts...
+  Running migration: 2_deploy_contracts.js
+    Replacing Voting...
+    ... 0x69ea7bd4b29927d6706d788b0beed7393c89e95524d0147eb0a56b79287bb082
+    Voting: 0x31b32e528b29bab7a89eaae29902bd01026ee088
+  Saving successful migration to network...
+    ... 0x39c2c333d3ed2d6d900cdc434cef4f32c850555fca56a50bab07ff8b87c9e8e5
+  Saving artifacts...
+
