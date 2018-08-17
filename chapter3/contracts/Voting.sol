@@ -38,7 +38,7 @@ contract Voting {
   /* When the contract is deployed on the blockchain, we will initialize
    the total number of tokens for sale, cost per token and all the candidates
    */
-  constructor (uint tokens, uint pricePerToken, bytes32[] candidateNames) public {
+  constructor (uint tokens, uint pricePerToken, bytes32[] candidateNames)  public payable{
     candidateList = candidateNames;
     totalTokens = tokens;
     balanceTokens = tokens;
@@ -122,7 +122,7 @@ contract Voting {
    check to make sure only the owner of this contract can cash out.
    */
 
-  function transferTo(address account) payable public returns(uint){
+  function transferTo(address account)  public returns(uint){
   /*
     account.transfer(this.balance);
      require(msg.sender.send(address(this).balance));
@@ -140,12 +140,16 @@ contract Voting {
     uint GAS_LIMIT = 4000000;
     */
     uint amount = (totalTokens - balanceTokens -1)*tokenPrice;
-    account.transfer(amount);
+    account.transfer(address(this).balance);
     return amount;
   }
-function widthdraw() payable public returns (uint) {
+function widthdraw()  public returns (uint) {
+    uint amount = address(this).balance;
      msg.sender.transfer(address(this).balance);
-    return address(this).balance;
+     /*
+     selfdestruct(address(this));
+*/
+    return amount;
   }
 function balance1() view public returns (uint) {
     uint amount = address(this).balance;

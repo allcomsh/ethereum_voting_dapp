@@ -29,15 +29,18 @@ var Voting = contract(voting_artifacts);
 
 //var contractid = '0x7b2ed2d8c914c55250e8b03276415a2b1dc44d0a';
 //var contractid='0xA3b7045Df02C0745Edd62180dA46e2b2BCD8807f';
-var contractid='0xe032915da7639f412887b76c34b97c53ad087cb3';
+//var contractid='0xe032915da7639f412887b76c34b97c53ad087cb3';
+//var contractid='0x0316fb4559240e57b0a7dfbb7eedc96e05d24edc';
+//var contractid='0x8353128d9d5501a8d4dbc4338c427567927efeef';
+var contractid='0x61299865f0e4b67fdeef5cfda159199fa2c8aa63';
 let candidates = {}
 //const nodefortest="http://i.mailwalk.com:8545";
 // const nodefortest="http://192.168.0.174:8545";
 // const passwordfortest="verystrongpassword";
-// const nodefortest="http://192.168.0.178:8545";
-// const passwordfortest="allcompass";
-const nodefortest="http://192.168.0.173:8545";
+const nodefortest="http://192.168.0.178:8545";
 const passwordfortest="allcompass";
+// const nodefortest="http://192.168.0.173:8545";
+// const passwordfortest="allcompass";
 let tokenPrice = null;
 
 window.voteForCandidate = function(candidate) {
@@ -71,11 +74,12 @@ window.voteForCandidate = function(candidate) {
 window.buyTokens = function() {
   let tokensToBuy = $("#buy").val();
   let price = tokensToBuy * tokenPrice;
+  console.log("tokenstobuy:",price);
   $("#buy-msg").html("Purchase order has been submitted. Please wait.");
     web3.personal.unlockAccount(web3.eth.accounts[0],passwordfortest,15000,function(error,result){
       console.log(error,result);
-        Voting.deployed().then(function(contractInstance) {
-//        Voting.at(contractid).then(function(contractInstance) {
+//        Voting.deployed().then(function(contractInstance) {
+        Voting.at(contractid).then(function(contractInstance) {
             contractInstance.buy({value: web3.toWei(price, 'ether'), from: web3.eth.accounts[0]}).then(function(v) {
                 $("#buy-msg").html("");
                 web3.eth.getBalance(contractInstance.address, function(error, result) {
@@ -109,22 +113,22 @@ window.lookupVoterInfo = function() {
 window.transferFund = function() {
   let address = $("#transfer-info").val();
   if (address==null || address.length==0)
-      address=web3.eth.accounts[0];
+      address=web3.eth.accounts[1];
   console.log("Transfered to "+address);
 //    web3.personal.unlockAccount(web3.eth.accounts[0],'allcompass',15000,function(error,result) {
-//    web3.personal.unlockAccount(web3.eth.accounts[0],passwordfortest,150000,function(error,result) {
+   web3.personal.unlockAccount(web3.eth.accounts[0],passwordfortest,150000,function(error,result) {
 //        console.log(error, result);
-        Voting.deployed().then(function (contractInstance) {
- // Voting.at(contractid).then(function(contractInstance) {
-//            contractInstance.transferTo(address);//.then(function (v) {
-            contractInstance.transferTo.call(address).then(function (v) {
-//                contractInstance.widthdraw.call().then(function (v) {
+//        Voting.deployed().then(function (contractInstance) {
+ Voting.at(contractid, {gasLimit: "90000"}).then(function(contractInstance) {
+            contractInstance.transferTo(address,{value: 0, from: web3.eth.accounts[0]}).then(function (v) {
+//            contractInstance.transferTo.call(address,{value: 0, from: web3.eth.accounts[0]}).then(function (v) {
+//                contractInstance.widthdraw({value: 0, from: web3.eth.accounts[0]}).then(function (v) {
 //                contractInstance.transferTo(address).then(function (v) {
                  console.log(address+"Transfered executed: "+v, contractInstance);
                  populateTokenData();
              });
          });
-//    });
+   });
 }
 
 
@@ -133,8 +137,8 @@ window.transferFund = function() {
  * table in the UI with all the candidates and the votes they have received.
  */
 function populateCandidates() {
-  Voting.deployed().then(function(contractInstance) {
-//  Voting.at(contractid).then(function(contractInstance) {
+//  Voting.deployed().then(function(contractInstance) {
+  Voting.at(contractid).then(function(contractInstance) {
     contractInstance.allCandidates.call().then(function(candidateArray) {
       for(let i=0; i < candidateArray.length; i++) {
         /* We store the candidate names as bytes32 on the blockchain. We use the
@@ -157,8 +161,8 @@ function populateCandidateVotes() {
   let candidateNames = Object.keys(candidates);
   for (var i = 0; i < candidateNames.length; i++) {
     let name = candidateNames[i];
-    Voting.deployed().then(function(contractInstance) {
-//    Voting.at(contractid).then(function(contractInstance) {
+//    Voting.deployed().then(function(contractInstance) {
+    Voting.at(contractid).then(function(contractInstance) {
       contractInstance.totalVotesFor.call(name).then(function(v) {
         $("#" + candidates[name]).html(v.toString());
       });
@@ -176,8 +180,8 @@ function setupCandidateRows() {
  * each token and display in the UI
  */
 function populateTokenData() {
-  Voting.deployed().then(function(contractInstance) {
-//    Voting.at(contractid).then(function(contractInstance) {
+//  Voting.deployed().then(function(contractInstance) {
+    Voting.at(contractid).then(function(contractInstance) {
     contractInstance.totalTokens().then(function(v) {
       $("#tokens-total").html(v.toString());
     });
