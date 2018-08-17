@@ -106,3 +106,12 @@ mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
 3. yum clean all
    yum makecache
    yum install golang
+
+https://github.com/rofl0r/proxychains-ng
+git clone https://github.com/rofl0r/proxychains-ng
+cd proxychains-ng
+./configure --prefix=/usr --sysconfdir=/etc
+make
+make install
+make install-config
+cd .. && rm -rf proxychains-ng
