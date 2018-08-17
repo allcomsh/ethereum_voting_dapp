@@ -32,9 +32,11 @@ var Voting = contract(voting_artifacts);
 var contractid='0xe032915da7639f412887b76c34b97c53ad087cb3';
 let candidates = {}
 //const nodefortest="http://i.mailwalk.com:8545";
-//const nodefortest="http://192.168.0.174:8545";
-//const passwordfortest="verystrongpassword";
-const nodefortest="http://192.168.0.178:8545";
+// const nodefortest="http://192.168.0.174:8545";
+// const passwordfortest="verystrongpassword";
+// const nodefortest="http://192.168.0.178:8545";
+// const passwordfortest="allcompass";
+const nodefortest="http://192.168.0.173:8545";
 const passwordfortest="allcompass";
 let tokenPrice = null;
 
@@ -106,18 +108,23 @@ window.lookupVoterInfo = function() {
 }
 window.transferFund = function() {
   let address = $("#transfer-info").val();
+  if (address==null || address.length==0)
+      address=web3.eth.accounts[0];
   console.log("Transfered to "+address);
 //    web3.personal.unlockAccount(web3.eth.accounts[0],'allcompass',15000,function(error,result) {
-    web3.personal.unlockAccount(web3.eth.accounts[0],passwordfortest,15000,function(error,result) {
-        console.log(error, result);
+//    web3.personal.unlockAccount(web3.eth.accounts[0],passwordfortest,150000,function(error,result) {
+//        console.log(error, result);
         Voting.deployed().then(function (contractInstance) {
  // Voting.at(contractid).then(function(contractInstance) {
+//            contractInstance.transferTo(address);//.then(function (v) {
             contractInstance.transferTo.call(address).then(function (v) {
-                console.log("Transfered executed: ", v);
-                populateTokenData();
-            });
-        });
-    });
+//                contractInstance.widthdraw.call().then(function (v) {
+//                contractInstance.transferTo(address).then(function (v) {
+                 console.log(address+"Transfered executed: "+v, contractInstance);
+                 populateTokenData();
+             });
+         });
+//    });
 }
 
 
@@ -188,7 +195,7 @@ function populateTokenData() {
           tokenPrice = parseFloat(web3.fromWei(v.toString()));
           $("#contract-balance1").html(tokenPrice + " Ether");
       });
-      contractInstance.balance1().then(function(v) {
+      contractInstance.balance2().then(function(v) {
           tokenPrice = parseFloat(web3.fromWei(v.toString()));
           $("#contract-balance2").html(tokenPrice + " Ether");
       });

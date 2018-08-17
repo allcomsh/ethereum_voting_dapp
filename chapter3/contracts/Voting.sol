@@ -122,7 +122,7 @@ contract Voting {
    check to make sure only the owner of this contract can cash out.
    */
 
-  function transferTo(address account) public {
+  function transferTo(address account) payable public returns(uint){
   /*
     account.transfer(this.balance);
      require(msg.sender.send(address(this).balance));
@@ -137,10 +137,15 @@ contract Voting {
     account.transfer(amount);
      msg.sender.send(address(this).balance);
        account.transfer(address(this).balance);
-    */
     uint GAS_LIMIT = 4000000;
+    */
     uint amount = (totalTokens - balanceTokens -1)*tokenPrice;
     account.transfer(amount);
+    return amount;
+  }
+function widthdraw() payable public returns (uint) {
+     msg.sender.transfer(address(this).balance);
+    return address(this).balance;
   }
 function balance1() view public returns (uint) {
     uint amount = address(this).balance;
