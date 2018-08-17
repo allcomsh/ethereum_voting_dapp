@@ -115,3 +115,9 @@ make
 make install
 make install-config
 cd .. && rm -rf proxychains-ng
+
+Eventually I can withdraw money from contract
+withdraw ether from contract finally works,
+1. first the constructor of sol should be payable, the withdraw function is not payable
+2. and then the js to submit the call of transferTo or withdraw should include from which account and value, gas limit etc.
+3. use https://remix.ethereum.org/ to debug sol program against testnet through local Web3 provider http://localhost:8545, which is a geth node running in light model
