@@ -127,3 +127,9 @@ swarm
 https://swarm-guide.readthedocs.io/en/latest/installation.html
 [liwei@osdnode173 go-ethereum]$ swarm --bzzaccount 0bb484ad60c7d2b5b3e9961e495534124af0a430
 swarm --ens-api /data/ethereum/.ethereum/geth.ipc --bzzaccount 0bb484ad60c7d2b5b3e9961e495534124af0a430 --datadir /data/ethereum/.ethereum  --httpaddr 0.0.0.0
+upload a file
+curl -H "Content-Type: image/jpeg" --data-binary @testup.jpg http://192.168.0.173:8500/bzz:/
+
+http://192.168.0.173:8500/bzz:/4123cc6b82da4232e0f0c556467d1c78b73aac5361db63b1232e1adad06b9e21/
+http://192.168.0.173:8500/bzz:/743c8ebd370454c3ee24a050f950df5690fc8436d6647ede6bea82f39528ae8c/
+

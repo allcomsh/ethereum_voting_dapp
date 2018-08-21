@@ -4,10 +4,10 @@
 import "../stylesheets/app.css";
 
 // Import libraries we need.
-import { default as Web3} from 'web3';
+//import { default as Web3} from 'web3';
 import { default as contract } from 'truffle-contract'
 var ENS = require('ethereum-ens');
-//var Web3 = require('web3');
+var Web3 = require('web3');
 
 var provider;// = new Web3.providers.HttpProvider();
 var ens;// = new ENS(provider);
@@ -37,10 +37,10 @@ let candidates = {}
 //const nodefortest="http://i.mailwalk.com:8545";
 // const nodefortest="http://192.168.0.174:8545";
 // const passwordfortest="verystrongpassword";
-const nodefortest="http://192.168.0.178:8545";
-const passwordfortest="allcompass";
-// const nodefortest="http://192.168.0.173:8545";
+// const nodefortest="http://192.168.0.178:8545";
 // const passwordfortest="allcompass";
+const nodefortest="http://192.168.0.173:8545";
+const passwordfortest="allcompass";
 let tokenPrice = null;
 
 window.voteForCandidate = function(candidate) {
@@ -224,17 +224,19 @@ $( document ).ready(function() {
   }
 
   Voting.setProvider(web3.currentProvider);
-  populateCandidates();
+//  populateCandidates();
 
-    provider = new Web3.providers.HttpProvider(nodefortest);
+//    provider = new Web3.providers.HttpProvider(nodefortest);
+    provider=web3.currentProvider;
+    console.log(provider)
 //  provider = window.web3.currentProvider;
   ens = new ENS(provider);
 //  console.log(ens.owner(namehash('lxh.liwei.test')));
     if (ens) {
         console.log('ens',ens);
 //        console.log('ens resolve',ens.resolver('liwei.test'));
-        // var address = ens.resolver('liwei.test').addr().then(function (addr) {
-        //     console.log('liwei.test', addr)
-        // });
+        var address = ens.resolver('allcom.test').addr().then(function (addr) {
+            console.log('liwei.test', addr)
+        });
     }
 });
