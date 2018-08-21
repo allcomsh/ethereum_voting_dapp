@@ -121,3 +121,9 @@ withdraw ether from contract finally works,
 1. first the constructor of sol should be payable, the withdraw function is not payable
 2. and then the js to submit the call of transferTo or withdraw should include from which account and value, gas limit etc.
 3. use https://remix.ethereum.org/ to debug sol program against testnet through local Web3 provider http://localhost:8545, which is a geth node running in light model
+
+
+swarm
+https://swarm-guide.readthedocs.io/en/latest/installation.html
+[liwei@osdnode173 go-ethereum]$ swarm --bzzaccount 0bb484ad60c7d2b5b3e9961e495534124af0a430
+swarm --ens-api /data/ethereum/.ethereum/geth.ipc --bzzaccount 0bb484ad60c7d2b5b3e9961e495534124af0a430 --datadir /data/ethereum/.ethereum  --httpaddr 0.0.0.0

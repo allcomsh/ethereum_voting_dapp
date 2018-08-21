@@ -100,6 +100,7 @@ window.lookupVoterInfo = function() {
 //  Voting.at(contractid).then(function(contractInstance) {
     contractInstance.voterDetails.call(address).then(function(v) {
       $("#tokens-bought").html("Total Tokens bought: " + v[0].toString());
+        $("#myaccount-token").html("Total Tokens bought: " + v[0].toString());
       let votesPerCandidate = v[1];
       $("#votes-cast").empty();
       $("#votes-cast").append("Votes cast per candidate: <br>");
@@ -151,6 +152,8 @@ function populateCandidates() {
       populateTokenData();
     });
   });
+    $("#node").html(nodefortest);
+    $("#contract").html(contractid);
     $("#myaccount").html(web3.eth.accounts[0]);
     web3.eth.getBalance(web3.eth.accounts[0], function(error, result) {
         $("#myaccount-balance").html(web3.fromWei(result.toString()) + " Ether");
