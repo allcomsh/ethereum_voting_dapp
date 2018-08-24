@@ -1,3 +1,4 @@
+"use strict";
 // Import the page's CSS. Webpack will know what to do with it.
 import "../stylesheets/app.css";
 
@@ -6,8 +7,10 @@ import { default as Web3} from 'web3';
 import { default as contract } from 'truffle-contract';
 import { default as ethUtil} from 'ethereumjs-util';
 import { default as sigUtil} from 'eth-sig-util';
+//var Accounts = require('web3-eth-accounts');
 
-
+//import { default as networks} from '../../truffle';
+var networks = require("../../truffle");
 /*
  * When you compile and deploy your Voting contract,
  * truffle stores the abi and deployed address in a json
@@ -19,6 +22,12 @@ import { default as sigUtil} from 'eth-sig-util';
  */
 
 import voting_artifacts from '../../build/contracts/Voting.json'
+console.log('networks:',networks);
+//if (networks==null)
+  networks ={development:{host:'192.168.0.178',port:8545}};
+const nodefortest="http://"+networks.development.host+":"+networks.development.port;
+console.log(nodefortest);
+const passwordfortest="allcompass";
 
 var Voting = contract(voting_artifacts);
 
@@ -32,9 +41,9 @@ window.submitVote = function(candidate) {
   console.log(candidateName);
   console.log(signature);
   console.log(voterAddress);
-  
+
   $("#msg").html("Vote has been submitted. The vote count will increment as soon as the vote is recorded on the blockchain. Please wait.")
-  
+
   Voting.deployed().then(function(contractInstance) {
     contractInstance.voteForCandidate(candidateName, voterAddress, signature, {gas: 140000, from: web3.eth.accounts[0]}).then(function() {
       let div_id = candidates[candidateName];
@@ -59,8 +68,8 @@ window.voteForCandidate = function(candidate) {
     }
   ]
 
-  var from = web3.eth.accounts[0]
-
+//  var from = web3.eth.accounts[0]
+var from = "0xdb43e5df86d203cae9da56525d7104dc0270a99a";
   var params = [msgParams, from]
   var method = 'eth_signTypedData'
 
@@ -90,20 +99,25 @@ $( document ).ready(function() {
     console.warn("Using web3 detected from external source like Metamask")
     // Use Mist/MetaMask's provider
     window.web3 = new Web3(web3.currentProvider);
+//      window.web3 = new Web3(new Web3.providers.HttpProvider(nodefortest));
   } else {
     console.warn("No web3 detected. Falling back to http://localhost:8545. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for development. More info here: http://truffleframework.com/tutorials/truffle-and-metamask");
     // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
-    window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+    window.web3 = new Web3(new Web3.providers.HttpProvider(nodefortest));
   }
-
+  //   var accounts = new Accounts(nodefortest);
+  // console.log(accounts);
+//  web3 = window.web3;
+//    window.web3.personal.unlockAccount(window.web3.eth.accounts[0],passwordfortest,150000,function(error,result) {
   Voting.setProvider(web3.currentProvider);
-  let candidateNames = Object.keys(candidates);
-  for (var i = 0; i < candidateNames.length; i++) {
-    let name = candidateNames[i];
-    Voting.deployed().then(function(contractInstance) {
-      contractInstance.totalVotesFor.call(name).then(function(v) {
-        $("#" + candidates[name]).html(v.toString());
-      });
-    })
-  }
+        let candidateNames = Object.keys(candidates);
+        for (var i = 0; i < candidateNames.length; i++) {
+            let name = candidateNames[i];
+            Voting.deployed().then(function (contractInstance) {
+                contractInstance.totalVotesFor.call(name).then(function (v) {
+                    $("#" + candidates[name]).html(v.toString());
+                });
+            })
+        }
+//    });
 });

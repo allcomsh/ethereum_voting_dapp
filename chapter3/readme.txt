@@ -133,3 +133,54 @@ curl -H "Content-Type: image/jpeg" --data-binary @testup.jpg http://192.168.0.17
 http://192.168.0.173:8500/bzz:/4123cc6b82da4232e0f0c556467d1c78b73aac5361db63b1232e1adad06b9e21/
 http://192.168.0.173:8500/bzz:/743c8ebd370454c3ee24a050f950df5690fc8436d6647ede6bea82f39528ae8c/
 
+192.168.0.178
+[liwei@localhost go-ethereum]$ geth --datadir /data/ethereum/.ropsten account new
+INFO [08-22|11:52:42.143] Maximum peer count                       ETH=25 LES=0 total=25
+Your new account is locked with a password. Please give a password. Do not forget this password.
+Passphrase:
+Repeat passphrase:
+Address: {9b02efa4bc76a92d27045b8dfaf16924743aa4c4}
+
+[liwei@localhost go-ethereum]$ swarm --datadir /data/ethereum/.ropsten --bzzaccount 9b02efa4bc76a92d27045b8dfaf16924743aa4c4
+INFO [08-22|11:54:41.147] Maximum peer count                       ETH=25 LES=0 total=25
+Unlocking swarm account 0x9b02eFa4Bc76a92d27045B8DFAf16924743AA4C4 [1/3]
+Passphrase:
+INFO [08-22|11:54:47.030] Starting peer-to-peer node               instance=swarm/v0.3.2/linux-amd64/go1.9.4
+INFO [08-22|11:54:47.206] Starting P2P networking
+INFO [08-22|11:54:49.433] UDP listener up                          self=enode://277ffa9812ca244dca3b88749b95713e742fae623e3885991c9a6b01829d92614454f5169454e14d47f705d979c35bd24a67a73ac424b09a5cd5e94af7781a46@[::]:30399
+INFO [08-22|11:54:49.434] Updated bzz local addr                   oaddr=1b5967ffcd3fedfc87619bb507ceabdce1419efd68f8a72dd4de0c2e00aa0ec7 uaddr=enode://277ffa9812ca244dca3b88749b95713e742fae623e3885991c9a6b01829d92614454f5169454e14d47f705d979c35bd24a67a73ac424b09a5cd5e94af7781a46@[::]:30399
+INFO [08-22|11:54:49.434] Starting bzz service
+INFO [08-22|11:54:49.434] Starting hive                            baseaddr=1b5967ff
+INFO [08-22|11:54:49.434] Detected an existing store. trying to load peers
+INFO [08-22|11:54:49.434] hive 1b5967ff: no persisted peers found
+INFO [08-22|11:54:49.434] Swarm network started                    bzzaddr=1b5967ffcd3fedfc87619bb507ceabdce1419efd68f8a72dd4de0c2e00aa0ec7
+INFO [08-22|11:54:49.434] Started Pss
+INFO [08-22|11:54:49.434] Loaded EC keys                           pubkey=0x0453f24a2f24e784086f5711df975aa3d38c67872849185f4170b47532ad3e0be3a6b341f29e62e3f2eb2722ba1afe7cdb6d5ec42a4c38a2cab25bad14fb17b1c7 secp256=0x0353f24a2f24e784086f5711df975aa3d38c67872849185f4170b47532ad3e0be3
+INFO [08-22|11:54:49.435] Streamer started
+INFO [08-22|11:54:49.439] RLPx listener up                         self=enode://277ffa9812ca244dca3b88749b95713e742fae623e3885991c9a6b01829d92614454f5169454e14d47f705d979c35bd24a67a73ac424b09a5cd5e94af7781a46@[::]:30399
+INFO [08-22|11:54:49.441] IPC endpoint opened                      url=/data/ethereum/.ropsten/bzzd.ipc
+
+sudo firewall-cmd --zone=public --add-port=8500/tcp --permanent
+
+whisper chat
+var kId = web3.shh.newKeyPair();
+web3.shh.newMessageFilter(
+    {privateKeyID:kId},
+    function(err, res) {console.log(web3.toUtf8(res.payload))
+    //function(err, res) {console.log(web3.toUtf8(res.payload) + ‘,’ + JSON.stringify(res) )}); //You can also combine it with complete res string.
+});
+web3.shh.getPublicKey(kId) //returns PUBLIC_KEY_OF_THE_RECEIVER
+On the sender node:
+
+web3.shh.post({
+  pubKey: 'PUBLIC_KEY_OF_THE_RECEIVER',
+  ttl: 7,
+  topic: '0x07678231',
+  powTarget: 2.01,
+  powTime: 2,
+  payload: web3.fromAscii("Hello there!")
+  });
+
+net.peerCount
+
+web3.fromWei(eth.getBalance(eth.accounts[0]))

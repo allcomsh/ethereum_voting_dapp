@@ -1,5 +1,6 @@
 // Allows us to use ES6 in our migrations and tests.
 require('babel-register')
+var Shh = require('web3-shh');
 
 module.exports = {
   networks: {
