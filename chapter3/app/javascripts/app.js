@@ -28,19 +28,19 @@ import voting_artifacts from '../../build/contracts/Voting.json'
 var Voting = contract(voting_artifacts);
 
 //var contractid = '0x7b2ed2d8c914c55250e8b03276415a2b1dc44d0a';
-//var contractid='0xA3b7045Df02C0745Edd62180dA46e2b2BCD8807f';
+var contractid='0xA3b7045Df02C0745Edd62180dA46e2b2BCD8807f';
 //var contractid='0xe032915da7639f412887b76c34b97c53ad087cb3';
 //var contractid='0x0316fb4559240e57b0a7dfbb7eedc96e05d24edc';
 //var contractid='0x8353128d9d5501a8d4dbc4338c427567927efeef';
-var contractid='0x61299865f0e4b67fdeef5cfda159199fa2c8aa63';
+//var contractid='0x61299865f0e4b67fdeef5cfda159199fa2c8aa63';
 let candidates = {}
 //const nodefortest="http://i.mailwalk.com:8545";
 // const nodefortest="http://192.168.0.174:8545";
 // const passwordfortest="verystrongpassword";
-// const nodefortest="http://192.168.0.178:8545";
-// const passwordfortest="allcompass";
-const nodefortest="http://192.168.0.173:8545";
+const nodefortest="http://192.168.0.178:8545";
 const passwordfortest="allcompass";
+// const nodefortest="http://192.168.0.173:8545";
+// const passwordfortest="allcompass";
 let tokenPrice = null;
 
 window.voteForCandidate = function(candidate) {
@@ -154,10 +154,12 @@ function populateCandidates() {
   });
     $("#node").html(nodefortest);
     $("#contract").html(contractid);
-    $("#myaccount").html(web3.eth.accounts[0]);
-    web3.eth.getBalance(web3.eth.accounts[0], function(error, result) {
-        $("#myaccount-balance").html(web3.fromWei(result.toString()) + " Ether");
-    });
+    // if (web3.eth && web3.eth.accounts && web3.eth.accounts.length>0) {
+    //     $("#myaccount").html(web3.eth.accounts[0]);
+    //     web3.eth.getBalance(web3.eth.accounts[0], function (error, result) {
+    //         $("#myaccount-balance").html(web3.fromWei(result.toString()) + " Ether");
+    //     });
+    // }
 }
 
 function populateCandidateVotes() {
@@ -210,24 +212,26 @@ function populateTokenData() {
 }
 
 $( document ).ready(function() {
-  if (typeof web3 !== 'undefined') {
+    var options = {timeout: 20000,headers: [{name: 'Access-Control-Allow-Origin', value: '*'},{name:'supports_credentials',value:true} ]};
+    if (typeof web3 !== 'undefined') {
     console.warn("Using web3 detected from external source like Metamask")
     // Use Mist/MetaMask's provider
 //    window.web3 = new Web3(web3.currentProvider);
 //    window.web3 = new Web3(new Web3.providers.HttpProvider("http://192.168.1.10:8545"));
-    window.web3 = new Web3(new Web3.providers.HttpProvider(nodefortest));
+    window.web3 = new Web3(new Web3.providers.HttpProvider(nodefortest),options);
   } else {
     console.warn("No web3 detected. Falling back to http://"+nodefortest+":8545. You should remove this fallback when you deploy live, as it's inherently insecure. Consider switching to Metamask for development. More info here: http://truffleframework.com/tutorials/truffle-and-metamask");
     // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
 //    window.web3 = new Web3(new Web3.providers.HttpProvider("http://192.168.1.10:8545"));
-    window.web3 = new Web3(new Web3.providers.HttpProvider(nodefortest));
+    window.web3 = new Web3(new Web3.providers.HttpProvider(nodefortest,options));
   }
 
   Voting.setProvider(web3.currentProvider);
-//  populateCandidates();
+  populateCandidates();
 
-//    provider = new Web3.providers.HttpProvider(nodefortest);
-    provider=web3.currentProvider;
+    provider = new Web3.providers.HttpProvider(nodefortest);
+//    provider = new Web3.providers.HttpProvider();
+    //provider=web3.currentProvider;
     console.log(provider)
 //  provider = window.web3.currentProvider;
   ens = new ENS(provider);

@@ -162,6 +162,9 @@ INFO [08-22|11:54:49.441] IPC endpoint opened                      url=/data/eth
 
 sudo firewall-cmd --zone=public --add-port=8500/tcp --permanent
 
+The default number of chunks of Swarm is 5M, about 20-25GB, change it to 500,000 or even smaller 100,000 for testing
+–store.size value	SWARM_STORE_CAPACITY	5000000	Number of chunks (5M is roughly 20-25GB) (default 5000000)]
+
 whisper chat
 var kId = web3.shh.newKeyPair();
 web3.shh.newMessageFilter(
@@ -181,6 +184,21 @@ web3.shh.post({
   payload: web3.fromAscii("Hello there!")
   });
 
+var kid=web3.shh.newKeyPair()
+web3.shh.newMessageFilter({privateKeyID:kid},function(err,res){console.log(web3.toUtf8(res.payload))});
+var ipub=web3.shh.getPublicKey(kid);
+web3.shh.post({pubKey:ipub,ttl:7,topic:'0x07678231',powTarget:2.01,powTime:2,payLoad:web3.fromAscii('Hello blockchain')})
+
+web3.shh.post({pubKey:'0x049316da3e7a10bb3a13c31e6ceb4fea8bfeeb3a09039aa615e6e26dd1b9757418502a0b8c1c7f87f37a4eb417af14bc95a55eae8e4a4adc2593c8c0b2c9278c05',ttl:7,topic:'0x07678231',powTarget:2.01,powTime:2,payLoad:web3.fromAscii('Hello blockchain')})
 net.peerCount
+
+if post in one node and receive in another node
+#1 node
+> admin.nodeInfo.enode
+"enode://999afc11c41b97362e893e053386e87af9ad7f1e26a8cf005c94a639a297e16963de430903c74a766ccb3107a7de22ae60bfc2ed8c18f2ef5761d9f0b8967ea4@[::]:30303"
+#2 node
+> admin.addPeer('enode://999afc11c41b97362e893e053386e87af9ad7f1e26a8cf005c94a639a297e16963de430903c74a766ccb3107a7de22ae60bfc2ed8c18f2ef5761d9f0b8967ea4@192.168.0.174:30303')
+
+https://ethereum.stackexchange.com/questions/24338/looking-for-a-working-whisper-example
 
 web3.fromWei(eth.getBalance(eth.accounts[0]))
