@@ -35,10 +35,10 @@ var contractid='0xA3b7045Df02C0745Edd62180dA46e2b2BCD8807f';
 //var contractid='0x61299865f0e4b67fdeef5cfda159199fa2c8aa63';
 let candidates = {}
 //const nodefortest="http://i.mailwalk.com:8545";
-// const nodefortest="http://192.168.0.174:8545";
-// const passwordfortest="verystrongpassword";
-const nodefortest="http://192.168.0.178:8545";
-const passwordfortest="allcompass";
+const nodefortest="http://192.168.0.174:8545";
+const passwordfortest="verystrongpassword";
+// const nodefortest="http://192.168.0.178:8545";
+// const passwordfortest="allcompass";
 // const nodefortest="http://192.168.0.173:8545";
 // const passwordfortest="allcompass";
 let tokenPrice = null;
@@ -239,8 +239,17 @@ $( document ).ready(function() {
     if (ens) {
         console.log('ens',ens);
 //        console.log('ens resolve',ens.resolver('liwei.test'));
-        var address = ens.resolver('allcom.test').addr().then(function (addr) {
-            console.log('liwei.test', addr)
+        var address = ens.resolver('allcomsh.test').addr().then(function (addr) {
+            console.log('allcomsh.test:', addr)
+        });
+        var address1 = ens.resolver('foo.allcomsh.test').addr().then(function (addr) {
+            console.log('foo.allcomsh.test:', addr)
+        });
+        ens.resolver('liwang.allcomsh.test').addr().then(function (addr) {
+            console.log('liwang.allcomsh.test:', addr)
+        });
+        ens.resolver('lxh.allcomsh.test').addr().then(function (addr) {
+            console.log('lxh.allcomsh.test:', addr)
         });
     }
 });
