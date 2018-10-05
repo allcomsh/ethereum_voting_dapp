@@ -26,7 +26,7 @@ module.exports = function(deployer) {
         })
         .then(()=>{
             console.log('setSubnodeOwner:'+ENS.address,tld);
-            return ENS.at(namehash.hash('test'))
+            return ENS.at(ENS.address)
             // eth
                 .setSubnodeOwner(0,web3.sha3(tld),owner,{from:owner});
         })
@@ -44,13 +44,13 @@ module.exports = function(deployer) {
         })
         .then(()=>{
             console.log('setSubnodeOwner:'+ENS.address,owner);
-            return ENS.at(namehash.hash('test'))
+            return ENS.at(ENS.address)
             // reverse
                 .setSubnodeOwner(0,web3.sha3('callt'),owner,{from:owner});
         })
         .then(()=>{
             console.log('setSubnodeOwner:'+tld,owner);
-            return ENS.at(namehash.hash('test'))
+            return ENS.at(ENS.address)
             // addr.reverse
                 .setSubnodeOwner(namehash.hash('callt'),web3.sha3('admin'),FIFSRegistrar.address,{from:owner});
         })

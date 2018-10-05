@@ -244,9 +244,9 @@ function populateENS() {
                 const address=  "0x29fa9174af22ef0fdefffeafee4983dc540ad79a";
                 const account = "0xee95143def53f4b012f25d6f1609f969edbacb89";//web3.eth.accounts[0]
  //               myens.setSubnodeOwner(namehash('allcomsh.test'), web3.sha3(name), account, {from:account });
-               myens.setSubnodeOwner(namehash('callt.test'), web3.sha3(name), account, {from:account });
-                myens.setResolver(namehash(name+'.callt.test'), publicresolver.address, {from:account});
-                publicresolver.setAddr(namehash(name+'.callt.test'), address, {from: account});
+               myens.setSubnodeOwner(namehash.hash('callt.test'), web3.sha3(name), account, {from:account });
+                myens.setResolver(namehash.hash(name+'.callt.test'), publicresolver.address, {from:account});
+                publicresolver.setAddr(namehash.hash(name+'.callt.test'), address, {from: account});
             });
 
         });
@@ -277,7 +277,7 @@ $( document ).ready(function() {
     console.log(provider)
     provider = window.web3.currentProvider;
  ens = new ENS(provider);
-//    populateENS();
+    populateENS();
 // console.log(ens.owner(namehash('lxh.liwei.test')));
     if (ens) {
         console.log('ens',ens);
@@ -294,7 +294,7 @@ $( document ).ready(function() {
         ens.resolver('lxh.allcomsh.test').addr().then(function (addr) {
             console.log('lxh.allcomsh.test:', addr)
         });
-        address = ens.resolver('callt.test').addr().then(function (addr) {
+        address = ens.resolver('first.callt.test').addr().then(function (addr) {
             console.log('callt.test:', addr)
         });
     }
