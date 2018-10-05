@@ -1,5 +1,6 @@
 var Voting = artifacts.require("./Voting.sol");
 const ENS = artifacts.require("@ensdomains/ens/ENSRegistry.sol");
+const FIFSRegistrar = artifacts.require("@ensdomains/ens/FIFSRegistrar.sol");
 const PublicResolver = artifacts.require("@ensdomains/ens/PublicResolver.sol");
 const ReverseRegistrar = artifacts.require("@ensdomains/ens/ReverseRegistrar.sol");
 const namehash=require('eth-ens-namehash');
@@ -10,6 +11,9 @@ module.exports = function(deployer) {
     let tld = 'callt.test';
     let owner = web3.eth.accounts[0];
     deployer.deploy(ENS)
+        .then(()=>{
+            return deployer.deploy(FIFSRegistrar,ENS.address);
+        })
         .then(()=>{
             return deployer.deploy(PublicResolver,ENS.address);
         })
