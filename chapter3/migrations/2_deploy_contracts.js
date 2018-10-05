@@ -12,17 +12,21 @@ module.exports = function(deployer) {
     let owner = web3.eth.accounts[0];
     deployer.deploy(ENS)
         .then(()=>{
-            return deployer.deploy(FIFSRegistrar,ENS.address);
+            return deployer.deploy(PublicResolver,ENS.address);
         })
         .then(()=>{
-            return deployer.deploy(PublicResolver,ENS.address);
+            console.log("ENS.address",ENS.address);
+            console.log("ENS.address",ENS.address);
+            //var testRegistrar = fifsRegistrarContract.at(ens.owner(namehash('test')));
+
+            return deployer.deploy(FIFSRegistrar,namehash.hash('test'),PublicResolver.address);
         })
         .then(()=>{
             return deployer.deploy(ReverseRegistrar,ENS.address,PublicResolver.address);
         })
         .then(()=>{
             console.log('setSubnodeOwner:'+ENS.address,tld);
-            return ENS.at(ENS.address)
+            return ENS.at(namehash.hash('test'))
             // eth
                 .setSubnodeOwner(0,web3.sha3(tld),owner,{from:owner});
         })
@@ -37,5 +41,17 @@ module.exports = function(deployer) {
             return ENS.at(ENS.address)
             // addr.reverse
                 .setSubnodeOwner(namehash.hash('reverse'),web3.sha3('addr'),ReverseRegistrar.address,{from:owner});
+        })
+        .then(()=>{
+            console.log('setSubnodeOwner:'+ENS.address,owner);
+            return ENS.at(namehash.hash('test'))
+            // reverse
+                .setSubnodeOwner(0,web3.sha3('callt'),owner,{from:owner});
+        })
+        .then(()=>{
+            console.log('setSubnodeOwner:'+tld,owner);
+            return ENS.at(namehash.hash('test'))
+            // addr.reverse
+                .setSubnodeOwner(namehash.hash('callt'),web3.sha3('admin'),FIFSRegistrar.address,{from:owner});
         })
 };

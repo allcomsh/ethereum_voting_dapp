@@ -9,10 +9,12 @@ import { default as contract } from 'truffle-contract'
 import ENSArtifacts from '../../build/contracts/ENSRegistry.json';
 import PublicResolver from '../../build/contracts/PublicResolver.json';
 import ReverseRegistrar from '../../build/contracts/ReverseRegistrar.json';
+import FIFSRegistrar from '../../build/contracts/FIFSRegistrar.json';
 import TruffleContract from 'truffle-contract'
 var ENSContract = TruffleContract(ENSArtifacts);
 const publicResolver = TruffleContract(PublicResolver);
 var reverseRegistrar = TruffleContract(ReverseRegistrar);
+var fifsRegistrar = TruffleContract(FIFSRegistrar);
 const namehash=require('eth-ens-namehash');
 
 var ENS = require('ethereum-ens');
@@ -224,6 +226,7 @@ function populateENS() {
     ENSContract.setProvider(web3.currentProvider)
     publicResolver.setProvider(web3.currentProvider)
     reverseRegistrar.setProvider(web3.currentProvider)
+    fifsRegistrar.setProvider(web3.currentProvider)
 
     ENSContract.deployed().then(function(contractInstance) {
         const myens=contractInstance;
@@ -240,8 +243,8 @@ function populateENS() {
     //        const address=web3.eth.accounts[0];
                 const address=  "0x29fa9174af22ef0fdefffeafee4983dc540ad79a";
                 const account = "0xee95143def53f4b012f25d6f1609f969edbacb89";//web3.eth.accounts[0]
-                myens.setSubnodeOwner(namehash('allcomsh.test'), web3.sha3(name), account, {from:account });
-//                myens.setSubnodeOwner(namehash('callt.test'), web3.sha3(name), account, {from:account });
+ //               myens.setSubnodeOwner(namehash('allcomsh.test'), web3.sha3(name), account, {from:account });
+               myens.setSubnodeOwner(namehash('callt.test'), web3.sha3(name), account, {from:account });
                 myens.setResolver(namehash(name+'.callt.test'), publicresolver.address, {from:account});
                 publicresolver.setAddr(namehash(name+'.callt.test'), address, {from: account});
             });
@@ -291,8 +294,8 @@ $( document ).ready(function() {
         ens.resolver('lxh.allcomsh.test').addr().then(function (addr) {
             console.log('lxh.allcomsh.test:', addr)
         });
-        // address = ens.resolver('callt.test').addr().then(function (addr) {
-        //     console.log('callt.test:', addr)
-        // });
+        address = ens.resolver('callt.test').addr().then(function (addr) {
+            console.log('callt.test:', addr)
+        });
     }
 });
