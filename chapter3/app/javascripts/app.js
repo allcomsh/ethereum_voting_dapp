@@ -6,6 +6,15 @@ import "../stylesheets/app.css";
 // Import libraries we need.
 //import { default as Web3} from 'web3';
 import { default as contract } from 'truffle-contract'
+import ENSArtifacts from '../../build/contracts/ENSRegistry.json';
+import PublicResolver from '../../build/contracts/PublicResolver.json';
+import ReverseRegistrar from '../../build/contracts/ReverseRegistrar.json';
+import TruffleContract from 'truffle-contract'
+var ENSContract = TruffleContract(ENSArtifacts);
+const publicResolver = TruffleContract(PublicResolver);
+var reverseRegistrar = TruffleContract(ReverseRegistrar);
+const namehash=require('eth-ens-namehash');
+
 var ENS = require('ethereum-ens');
 var Web3 = require('web3');
 
@@ -35,10 +44,10 @@ var contractid='0xA3b7045Df02C0745Edd62180dA46e2b2BCD8807f';
 //var contractid='0x61299865f0e4b67fdeef5cfda159199fa2c8aa63';
 let candidates = {}
 //const nodefortest="http://i.mailwalk.com:8545";
-const nodefortest="http://192.168.0.174:8545";
-const passwordfortest="verystrongpassword";
-// const nodefortest="http://192.168.0.178:8545";
-// const passwordfortest="allcompass";
+// const nodefortest="http://192.168.0.174:8545";
+// const passwordfortest="verystrongpassword";
+const nodefortest="http://192.168.0.178:8545";
+const passwordfortest="allcompass";
 // const nodefortest="http://192.168.0.173:8545";
 // const passwordfortest="allcompass";
 let tokenPrice = null;
@@ -211,6 +220,35 @@ function populateTokenData() {
   });
 }
 
+function populateENS() {
+    ENSContract.setProvider(web3.currentProvider)
+    publicResolver.setProvider(web3.currentProvider)
+    reverseRegistrar.setProvider(web3.currentProvider)
+
+    ENSContract.deployed().then(function(contractInstance) {
+        const myens=contractInstance;
+        // var address = contractInstance.resolver('callt.test').addr().then(function (addr) {
+        //     console.log('allcomsh.test:', addr)
+        // });
+        // address = contractInstance.resolver('allcomsh.test').addr().then(function (addr) {
+        //     console.log('allcomsh.test:', addr)
+        // });
+            publicResolver.deployed().then(function(contractInstance) {
+                const publicresolver = contractInstance;
+                const name="first";
+//                const address=publicresolver.address;
+    //        const address=web3.eth.accounts[0];
+                const address=  "0x29fa9174af22ef0fdefffeafee4983dc540ad79a";
+                const account = "0xee95143def53f4b012f25d6f1609f969edbacb89";//web3.eth.accounts[0]
+                myens.setSubnodeOwner(namehash('callt.test'), web3.sha3(name), account, {from:account });
+                myens.setResolver(namehash(name+'.callt.test'), publicresolver.address, {from:account});
+                publicresolver.setAddr(namehash(name+'.callt.test'), address, {from: account});
+            });
+
+        });
+
+}
+
 $( document ).ready(function() {
     var options = {timeout: 20000,headers: [{name: 'Access-Control-Allow-Origin', value: '*'},{name:'supports_credentials',value:true} ]};
     if (typeof web3 !== 'undefined') {
@@ -233,12 +271,13 @@ $( document ).ready(function() {
 //    provider = new Web3.providers.HttpProvider();
     //provider=web3.currentProvider;
     console.log(provider)
-//  provider = window.web3.currentProvider;
-  ens = new ENS(provider);
-//  console.log(ens.owner(namehash('lxh.liwei.test')));
+    provider = window.web3.currentProvider;
+ ens = new ENS(provider);
+    populateENS();
+// console.log(ens.owner(namehash('lxh.liwei.test')));
     if (ens) {
         console.log('ens',ens);
-//        console.log('ens resolve',ens.resolver('liwei.test'));
+       console.log('ens resolve',ens.resolver('liwei.test'));
         var address = ens.resolver('allcomsh.test').addr().then(function (addr) {
             console.log('allcomsh.test:', addr)
         });
@@ -250,6 +289,9 @@ $( document ).ready(function() {
         });
         ens.resolver('lxh.allcomsh.test').addr().then(function (addr) {
             console.log('lxh.allcomsh.test:', addr)
+        });
+        address = ens.resolver('callt.test').addr().then(function (addr) {
+            console.log('callt.test:', addr)
         });
     }
 });
