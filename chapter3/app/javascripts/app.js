@@ -221,13 +221,40 @@ function populateTokenData() {
       });
   });
 }
+function namehash1(name) {
+    var node = '0x0000000000000000000000000000000000000000000000000000000000000000';
+    if (name !== '') {
+        var labels = name.split(".");
+        for(var i = labels.length - 1; i >= 0; i--) {
+            node = web3.sha3(node + web3.sha3(labels[i]).slice(2), {encoding: 'hex'});
+        }
+    }
+    return node.toString();
+}
 
 function populateENS() {
     ENSContract.setProvider(web3.currentProvider)
     publicResolver.setProvider(web3.currentProvider)
     reverseRegistrar.setProvider(web3.currentProvider)
     fifsRegistrar.setProvider(web3.currentProvider)
-
+//    publicResolver.at("0x5d20cf83cb385e06d2f2a892f9322cd4933eacdc").then(function(contractInstance) {
+//     publicResolver.deployed().then(function(contractInstance) {
+//         const account = "0xee95143def53f4b012f25d6f1609f969edbacb89";//web3.eth.accounts[0]
+//         const publicresolver = contractInstance;
+//         const address = "0x29fa9174af22ef0fdefffeafee4983dc540ad79a";
+//         console.log("hash1:",namehash1('calltt1.test'));
+//         console.log("hash:",namehash.hash('calltt1.test'));
+//         ens.setResolver(namehash1('calltt1.test'), publicresolver.address, {from: account}).then(e => {
+//             console.log('setResolver:', e);
+//             publicresolver.setAddr(namehash1('calltt1.test'), address, {from: account}).then(e => {
+//                 console.log('setAddr', e);
+//                 ens.resolver('calltt1.test').addr().then(function (addr) {
+//                     console.log('check callt.test:', addr)
+//                 });
+//             });
+//         });
+//     });
+//     return;
     ENSContract.deployed().then(function(contractInstance) {
         const myens=contractInstance;
         // var address = contractInstance.resolver('callt.test').addr().then(function (addr) {
@@ -236,18 +263,38 @@ function populateENS() {
         // address = contractInstance.resolver('allcomsh.test').addr().then(function (addr) {
         //     console.log('allcomsh.test:', addr)
         // });
-            publicResolver.deployed().then(function(contractInstance) {
+        let rinkebyens='0xe7410170f87102df0055eb195163a03b7f2bff4a';
+//        fifsRegistrar.at(rinkebyens).then(function (contractInstance) {
+//        fifsRegistrar.at(ens.owner(namehash.hash('test'))).then(function (contractInstance) {
+        fifsRegistrar.deployed().then(function (contractInstance) {
+            const account = "0xee95143def53f4b012f25d6f1609f969edbacb89";//web3.eth.accounts[0]
+            const fifs=contractInstance;
+            fifs.register(web3.sha3('calltt'), account, {from: account}).then(e=>{
+                console.log('register',e)
+//                publicResolver.at("0x5d20cf83cb385e06d2f2a892f9322cd4933eacdc").then(function(contractInstance) {
+                publicResolver.deployed().then(function(contractInstance) {
                 const publicresolver = contractInstance;
                 const name="first";
 //                const address=publicresolver.address;
     //        const address=web3.eth.accounts[0];
                 const address=  "0x29fa9174af22ef0fdefffeafee4983dc540ad79a";
-                const account = "0xee95143def53f4b012f25d6f1609f969edbacb89";//web3.eth.accounts[0]
+                ens.setResolver(namehash.hash('calltt.test'), publicresolver.address, {from:account}).then(e=> {
+                    console.log('setResolver',e);
+                    publicresolver.setAddr(namehash.hash('calltt.test'), address, {from: account}).then(e=>{
+                        console.log('setAddr',e);
+                        ens.resolver('calltt.test').addr().then(function (addr) {
+                            console.log('check callt.test:', addr)
+                        });
+                    });
+                }
+            );
  //               myens.setSubnodeOwner(namehash('allcomsh.test'), web3.sha3(name), account, {from:account });
                myens.setSubnodeOwner(namehash.hash('callt.test'), web3.sha3(name), account, {from:account });
                 myens.setResolver(namehash.hash(name+'.callt.test'), publicresolver.address, {from:account});
                 publicresolver.setAddr(namehash.hash(name+'.callt.test'), address, {from: account});
             });
+            })
+        })
 
         });
 
@@ -294,7 +341,7 @@ $( document ).ready(function() {
         ens.resolver('lxh.allcomsh.test').addr().then(function (addr) {
             console.log('lxh.allcomsh.test:', addr)
         });
-        address = ens.resolver('first.callt.test').addr().then(function (addr) {
+        address = ens.resolver('calltt.test').addr().then(function (addr) {
             console.log('callt.test:', addr)
         });
     }
