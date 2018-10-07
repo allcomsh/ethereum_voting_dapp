@@ -15,13 +15,13 @@ module.exports = function(deployer) {
     let rinkebyresolver='0x5d20cf83cb385e06d2f2a892f9322cd4933eacdc';
     deployer.deploy(ENS)
         .then(()=>{
-            return deployer.deploy(PublicResolver,ENSrinkeby.address);
+            return deployer.deploy(PublicResolver,ENS.address);
         })
         .then(()=>{
             console.log("ENS.address",ENS.address);
 //            console.log("ENS.address",ENS.address);
             //var testRegistrar = fifsRegistrarContract.at(ens.owner(namehash('test')));
-                return deployer.deploy(FIFSRegistrar,ENSrinkeby.address,PublicResolver.address);
+                return deployer.deploy(FIFSRegistrar,ENS.address,PublicResolver.address);
 
 //            return deployer.deploy(FIFSRegistrar,rinkebyens,rinkebyresolver);
         })
